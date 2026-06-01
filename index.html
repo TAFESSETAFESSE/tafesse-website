@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAFESSE — Premium Home Delivery · Addis Ababa</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -13,7 +15,7 @@
 }
 html { scroll-behavior: smooth; }
 body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2rem; background: rgba(247,243,236,0.95); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(201,168,76,0.2); }
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2rem; background: rgba(247,243,236,0.95); backdrop-filter: blur(12px); border-bottom: 0.5px solid rgba(201,168,76,0.2); }
 .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; letter-spacing: 0.15em; color: var(--dark); text-decoration: none; }
 .nav-logo span { color: var(--gold); }
 .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -24,22 +26,29 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 @media (max-width: 768px) { .nav-links { display: none; } .nav-hamburger { display: flex; } .nav-cta { font-size: 0.65rem; padding: 0.5rem 1rem; } }
 .hero { min-height: 100vh; background: var(--dark); display: grid; grid-template-columns: 1fr 1fr; padding-top: 5rem; overflow: hidden; }
 @media (max-width: 768px) { .hero { grid-template-columns: 1fr; } .hero-right { display: none; } }
-.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 2rem 4rem 3rem; }
+.hero-left { display: flex; flex-direction: column; justify-content: center; padding: 4rem 2rem 4rem 3rem; position: relative; z-index: 2; }
 .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; font-weight: 500; display: flex; align-items: center; gap: 0.8rem; }
 .hero-eyebrow::before { content: ''; display: block; width: 2rem; height: 0.5px; background: var(--gold); }
-.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 300; line-height: 1.15; color: var(--white); margin-bottom: 1.5rem; }
+.hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4.5vw, 4rem); font-weight: 300; line-height: 1.15; color: var(--white); margin-bottom: 1.5rem; }
 .hero h1 em { font-style: italic; color: var(--gold-light); }
 .hero-sub { font-size: 0.9rem; line-height: 1.8; color: rgba(255,255,255,0.55); max-width: 420px; margin-bottom: 2.5rem; font-weight: 300; }
 .hero-actions { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
 .btn-primary { background: var(--gold); color: var(--dark); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; }
 .btn-ghost { background: transparent; color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 0; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 400; }
 .hero-right { position: relative; overflow: hidden; }
-.hero-image-grid { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; }
-.hero-img { background: var(--dark-2); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-.hero-img svg { width: 60%; height: 60%; opacity: 0.15; }
-.hero-img-label { position: absolute; bottom: 1rem; left: 1rem; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 500; }
-.hero-img-1 { background: #2A2420; } .hero-img-2 { background: #222018; } .hero-img-3 { background: #1E1C18; } .hero-img-4 { background: #252220; }
-.hero-badge { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(201,168,76,0.1); border: 0.5px solid rgba(201,168,76,0.3); padding: 0.5rem 1rem; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); white-space: nowrap; z-index: 3; }
+#hero-map { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
+.hero-map-overlay { position: absolute; inset: 0; background: rgba(26,23,20,0.55); z-index: 2; pointer-events: none; }
+.hero-badge { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); background: rgba(201,168,76,0.15); border: 0.5px solid rgba(201,168,76,0.4); padding: 0.5rem 1.2rem; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); white-space: nowrap; z-index: 3; }
+.leaflet-container { background: #1A1714 !important; }
+.leaflet-tile { filter: brightness(0.3) sepia(0.4) hue-rotate(10deg) saturate(0.6); }
+.custom-pin { width: 12px; height: 12px; border-radius: 50%; background: #C9A84C; border: 2px solid rgba(201,168,76,0.4); animation: pinpulse 2s infinite; }
+.custom-pin-large { width: 16px; height: 16px; border-radius: 50%; background: #C9A84C; border: 3px solid rgba(201,168,76,0.3); animation: pinpulse 1.8s infinite; }
+@keyframes pinpulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.4)} 50%{box-shadow:0 0 0 10px rgba(201,168,76,0)} }
+.leaflet-popup-content-wrapper { background: rgba(26,23,20,0.95); border: 0.5px solid rgba(201,168,76,0.3); border-radius: 0; color: white; font-family: 'DM Sans', sans-serif; }
+.leaflet-popup-content { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #C9A84C; margin: 6px 10px; }
+.leaflet-popup-tip { background: rgba(26,23,20,0.95); }
+.leaflet-control-attribution { display: none !important; }
+.leaflet-control-zoom { display: none !important; }
 .trust-bar { background: var(--dark-2); padding: 1rem 2rem; display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap; }
 .trust-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.4); font-weight: 500; }
 .trust-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
@@ -49,30 +58,32 @@ section { padding: 4rem 2rem; }
 .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 300; line-height: 1.2; color: var(--dark); margin-bottom: 1rem; }
 .section-title em { font-style: italic; }
 .section-sub { font-size: 0.88rem; line-height: 1.8; color: var(--text-muted); max-width: 540px; font-weight: 300; }
+.vision-section { background: var(--dark); padding: 5rem 3rem; }
+.vision-inner { max-width: 720px; }
+.vision-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 3vw, 2.5rem); font-weight: 300; line-height: 1.4; color: var(--white); margin-bottom: 2rem; }
+.vision-quote em { font-style: italic; color: var(--gold-light); }
+.vision-sub { font-size: 0.88rem; line-height: 1.8; color: rgba(255,255,255,0.45); max-width: 560px; font-weight: 300; margin-bottom: 1.5rem; }
+.vision-name { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.25); font-weight: 500; }
 .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; margin-top: 3.5rem; background: var(--cream-2); }
 .why-card { background: var(--cream); padding: 2rem 1.5rem; transition: background 0.2s; }
 .why-card:hover { background: var(--white); }
 .why-number { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 1rem; }
 .why-title { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dark); font-weight: 500; margin-bottom: 0.8rem; }
 .why-text { font-size: 0.85rem; line-height: 1.7; color: var(--text-muted); font-weight: 300; }
-.founder-section { background: var(--dark); }
-.founder-inner { max-width: 680px; }
-.founder-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 300; line-height: 1.4; color: var(--white); margin-bottom: 2rem; }
-.founder-quote em { font-style: italic; color: var(--gold-light); }
-.founder-name { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.35); font-weight: 500; }
-.products-section { background: var(--dark); border-top: 0.5px solid rgba(255,255,255,0.05); }
+.products-section { background: var(--dark); }
 .products-section .section-title { color: var(--white); }
 .products-section .section-sub { color: rgba(255,255,255,0.45); }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; margin-top: 3rem; background: rgba(255,255,255,0.05); }
-.product-card { background: var(--dark-2); cursor: pointer; position: relative; overflow: hidden; transition: background 0.2s; }
-.product-card:hover { background: #322E28; }
-.product-visual { height: 180px; background: var(--dark); display: flex; align-items: center; justify-content: center; position: relative; }
-.product-visual svg { width: 70px; height: 70px; opacity: 0.2; }
-.product-cat { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); font-weight: 500; position: absolute; top: 1rem; left: 1rem; }
-.product-info { padding: 1.2rem; }
-.product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--white); margin-bottom: 0.3rem; }
-.product-desc { font-size: 0.75rem; color: rgba(255,255,255,0.35); line-height: 1.5; margin-bottom: 0.8rem; font-weight: 300; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; margin-top: 3rem; background: rgba(255,255,255,0.05); }
+.product-card { background: var(--dark-2); cursor: pointer; transition: background 0.2s; }
+.product-card:hover { background: #2E2A24; }
+.product-card:hover .product-card-inner { border-color: rgba(201,168,76,0.3); }
+.product-card-inner { padding: 2.5rem 2rem; border: 0.5px solid transparent; transition: border 0.2s; height: 100%; }
+.product-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+.product-cat { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.8rem; }
+.product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--white); margin-bottom: 0.6rem; line-height: 1.2; }
+.product-desc { font-size: 0.78rem; color: rgba(255,255,255,0.35); line-height: 1.6; margin-bottom: 1.2rem; font-weight: 300; }
 .product-price { font-size: 0.8rem; color: var(--gold); font-weight: 500; }
+.product-tag { display: inline-block; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border: 0.5px solid rgba(201,168,76,0.3); color: rgba(201,168,76,0.7); margin-top: 0.8rem; }
 .delivery-section { background: var(--cream-2); }
 .delivery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
 @media (max-width: 768px) { .delivery-grid { grid-template-columns: 1fr; gap: 2rem; } }
@@ -81,15 +92,12 @@ section { padding: 4rem 2rem; }
 .step-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--gold-light); line-height: 1; flex-shrink: 0; width: 2rem; text-align: center; }
 .step-title { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); font-weight: 500; margin-bottom: 0.4rem; }
 .step-text { font-size: 0.82rem; line-height: 1.6; color: var(--text-muted); font-weight: 300; }
-.delivery-visual { background: var(--dark); padding: 2rem; position: relative; min-height: 340px; display: flex; flex-direction: column; justify-content: flex-end; }
-.map-mock { position: absolute; inset: 0; background: #1A1714; overflow: hidden; }
-.map-grid { position: absolute; inset: 0; opacity: 0.06; background-image: linear-gradient(var(--gold) 1px, transparent 1px), linear-gradient(90deg, var(--gold) 1px, transparent 1px); background-size: 40px 40px; }
-.map-pin { width: 12px; height: 12px; border-radius: 50%; background: var(--gold); position: absolute; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{box-shadow:0 0 0 6px rgba(201,168,76,0.15)} 50%{box-shadow:0 0 0 12px rgba(201,168,76,0.05)} }
-.map-pin-1 { top: 38%; left: 45%; } .map-pin-2 { top: 56%; left: 60%; background: rgba(201,168,76,0.4); animation-delay: 0.8s; }
-.delivery-card { position: relative; z-index: 2; background: rgba(247,243,236,0.07); border: 0.5px solid rgba(201,168,76,0.2); padding: 1.2rem; }
+.delivery-visual { position: relative; min-height: 380px; overflow: hidden; }
+#delivery-map { position: absolute; inset: 0; width: 100%; height: 100%; }
+.delivery-map-overlay { position: absolute; inset: 0; background: rgba(26,23,20,0.45); pointer-events: none; z-index: 2; }
+.delivery-card { position: absolute; bottom: 0; left: 0; right: 0; z-index: 3; background: rgba(26,23,20,0.92); border-top: 0.5px solid rgba(201,168,76,0.2); padding: 1.2rem; backdrop-filter: blur(8px); }
 .delivery-card-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
-.delivery-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--white); font-weight: 300; margin-bottom: 0.3rem; }
+.delivery-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--white); font-weight: 300; margin-bottom: 0.3rem; }
 .delivery-card-sub { font-size: 0.75rem; color: rgba(255,255,255,0.4); font-weight: 300; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; display: inline-block; margin-right: 6px; animation: blink 1.5s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
@@ -112,7 +120,6 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
 </style>
 </head>
 <body>
-
 <nav>
   <a class="nav-logo" href="#">T<span>A</span>FESSE</a>
   <ul class="nav-links">
@@ -124,28 +131,22 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
   <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
   <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
-
 <section class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">Addis Ababa · Launching 2025</div>
-    <h1>In Addis, we don't really get <em>deliveries.</em> We're changing that.</h1>
-    <p class="hero-sub">You pick a time. We show up at that time. No chasing, no waiting, no wondering. Just your order, at your door, exactly when we said.</p>
+    <h1>Addis deserves brands it can <em>rely on.</em> We are building one.</h1>
+    <p class="hero-sub">Choose your product. Set your delivery time. We handle everything else — precisely, professionally, every single time.</p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join the Waitlist</button>
       <button class="btn-ghost" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})">See how it works →</button>
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-image-grid">
-      <div class="hero-img hero-img-1"><svg viewBox="0 0 100 60" fill="none"><rect x="10" y="30" width="80" height="25" rx="3" fill="white"/><rect x="20" y="15" width="60" height="18" rx="8" fill="white"/><rect x="40" y="53" width="8" height="7" fill="white"/><rect x="52" y="53" width="8" height="7" fill="white"/></svg><span class="hero-img-label">Sofas</span></div>
-      <div class="hero-img hero-img-2"><svg viewBox="0 0 80 100" fill="none"><rect x="10" y="10" width="60" height="80" rx="2" fill="white"/><rect x="18" y="18" width="44" height="30" rx="1" fill="none" stroke="#1A1714" stroke-width="3"/><circle cx="55" cy="75" r="4" fill="#1A1714"/></svg><span class="hero-img-label">Fridges</span></div>
-      <div class="hero-img hero-img-3"><svg viewBox="0 0 100 80" fill="none"><rect x="5" y="35" width="90" height="38" rx="2" fill="white"/><rect x="35" y="15" width="30" height="25" rx="2" fill="white"/><rect x="15" y="70" width="12" height="8" fill="white"/><rect x="73" y="70" width="12" height="8" fill="white"/></svg><span class="hero-img-label">Beds</span></div>
-      <div class="hero-img hero-img-4"><svg viewBox="0 0 80 80" fill="none"><rect x="10" y="10" width="60" height="60" rx="2" fill="white"/><circle cx="40" cy="40" r="15" fill="none" stroke="white" stroke-width="2"/></svg><span class="hero-img-label">Appliances</span></div>
-    </div>
-    <div class="hero-badge">Coming to Addis Ababa · 2025</div>
+    <div id="hero-map"></div>
+    <div class="hero-map-overlay"></div>
+    <div class="hero-badge">Delivering across Addis Ababa · 2025</div>
   </div>
 </section>
-
 <div class="trust-bar">
   <div class="trust-item"><div class="trust-dot"></div>Verified Suppliers</div>
   <div class="trust-item"><div class="trust-dot"></div>On-Time Delivery</div>
@@ -153,89 +154,85 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
   <div class="trust-item"><div class="trust-dot"></div>GPS Tracked</div>
   <div class="trust-item"><div class="trust-dot"></div>Diaspora Friendly</div>
 </div>
-
-<section class="founder-section">
-  <div class="founder-inner">
-    <div class="section-eyebrow">Why this exists</div>
-    <div class="founder-quote">"I built this because someone I love — a new mum, exhausted, just needed <em>one last thing</em> for the nursery — shouldn't have to wonder if it's actually going to arrive."</div>
-    <div class="founder-name">Founder, TAFESSE</div>
+<section class="vision-section">
+  <div class="vision-inner">
+    <div class="section-eyebrow">Our vision</div>
+    <div class="vision-quote">Addis Ababa is becoming one of the <em>great cities of this century.</em> It deserves brands that match that ambition.</div>
+    <p class="vision-sub">The city is growing fast — new apartments, new businesses, a rising generation with rising expectations. What has been missing is a home commerce brand worthy of that growth. Reliable. Professional. Trustworthy. Built to last. That is what TAFESSE is here to be.</p>
+    <div class="vision-name">TAFESSE — Founded in Addis Ababa</div>
   </div>
 </section>
-
 <section id="why">
   <div class="section-eyebrow">Why TAFESSE</div>
-  <div class="section-title">A different kind of <em>promise</em></div>
-  <p class="section-sub">We're not building another marketplace. We're building the delivery experience Addis deserves — one order at a time.</p>
+  <div class="section-title">A different kind of <em>commitment</em></div>
+  <p class="section-sub">We are not building another marketplace. We are building the standard for home delivery in Addis — one order at a time.</p>
   <div class="why-grid">
-    <div class="why-card"><div class="why-number">01</div><div class="why-title">We show up on time</div><p class="why-text">You choose a delivery window. We arrive in it. That's the whole promise. Everything we do is built around keeping it.</p></div>
+    <div class="why-card"><div class="why-number">01</div><div class="why-title">We arrive on time</div><p class="why-text">You choose a delivery window. We arrive within it. That is our core promise and everything we do is built around keeping it.</p></div>
     <div class="why-card"><div class="why-number">02</div><div class="why-title">Verified products only</div><p class="why-text">Every product on TAFESSE has been sourced from a verified supplier. What you see is what arrives. No substitutions, no surprises.</p></div>
-    <div class="why-card"><div class="why-number">03</div><div class="why-title">Built for Addis</div><p class="why-text">No postcode? No problem. Drop a pin, share your GPS, add a note. We've built delivery around how Addis actually works — not how it's supposed to work.</p></div>
-    <div class="why-card"><div class="why-number">04</div><div class="why-title">For the diaspora too</div><p class="why-text">Ordering from London or Washington for family back home? We'll deliver, assemble, and send you a photo the moment it's done. You'll know it arrived before you even ask.</p></div>
-    <div class="why-card"><div class="why-number">05</div><div class="why-title">Assembly included</div><p class="why-text">We don't leave a flat-pack at the door. We stay until it's built, positioned and ready to use. Then we take the packaging with us.</p></div>
-    <div class="why-card"><div class="why-number">06</div><div class="why-title">We follow up</div><p class="why-text">24 hours after every delivery we check in. Not a chatbot — a real message. If something isn't right, we fix it.</p></div>
+    <div class="why-card"><div class="why-number">03</div><div class="why-title">Built for Addis</div><p class="why-text">No postcode? No problem. Drop a Google Maps pin or share your GPS coordinates. We have built our delivery system around how Addis actually works.</p></div>
+    <div class="why-card"><div class="why-number">04</div><div class="why-title">For the diaspora too</div><p class="why-text">Ordering from London or Washington for family back home? We deliver, assemble, and send you a photo confirmation the moment it is done.</p></div>
+    <div class="why-card"><div class="why-number">05</div><div class="why-title">Assembly included</div><p class="why-text">We do not leave a flat-pack at the door. We stay until everything is built, positioned and ready to use. Then we remove all packaging.</p></div>
+    <div class="why-card"><div class="why-number">06</div><div class="why-title">We follow up</div><p class="why-text">24 hours after every delivery, we check in. If something is not right, we fix it. That is what a trusted brand does.</p></div>
   </div>
 </section>
-
 <section id="products" class="products-section">
   <div class="section-eyebrow">What we deliver</div>
   <div class="section-title" style="color:white">Furniture & appliances for the <em>Addis home</em></div>
-  <p class="section-sub">A focused, verified collection. Every item photographed, quality-checked and ready to deliver.</p>
+  <p class="section-sub">A focused, verified collection. Every item quality-checked, professionally delivered and fully assembled.</p>
   <div class="product-grid">
-    <div class="product-card"><div class="product-visual"><span class="product-cat">Seating</span><svg viewBox="0 0 100 60" fill="none"><rect x="10" y="30" width="80" height="25" rx="3" fill="white"/><rect x="20" y="15" width="60" height="18" rx="8" fill="white"/><rect x="40" y="53" width="8" height="7" fill="white"/><rect x="52" y="53" width="8" height="7" fill="white"/></svg></div><div class="product-info"><div class="product-name">Sofas</div><div class="product-desc">2 and 3-seat. Fabric and leather options. Delivery and assembly included.</div><div class="product-price">From 28,000 ETB</div></div></div>
-    <div class="product-card"><div class="product-visual"><span class="product-cat">Appliances</span><svg viewBox="0 0 80 100" fill="none"><rect x="10" y="10" width="60" height="80" rx="2" fill="white"/><rect x="18" y="18" width="44" height="30" rx="1" fill="none" stroke="#333" stroke-width="3"/><circle cx="55" cy="75" r="4" fill="#333"/></svg></div><div class="product-info"><div class="product-name">Fridges</div><div class="product-desc">Single and double-door. Energy-efficient. 2-year warranty included.</div><div class="product-price">From 42,000 ETB</div></div></div>
-    <div class="product-card"><div class="product-visual"><span class="product-cat">Bedroom</span><svg viewBox="0 0 100 80" fill="none"><rect x="5" y="35" width="90" height="38" rx="2" fill="white"/><rect x="35" y="15" width="30" height="25" rx="2" fill="white"/><rect x="15" y="70" width="12" height="8" fill="white"/><rect x="73" y="70" width="12" height="8" fill="white"/></svg></div><div class="product-info"><div class="product-name">Beds & mattresses</div><div class="product-desc">Single, double and king. Solid frames. Professional assembly.</div><div class="product-price">From 18,500 ETB</div></div></div>
-    <div class="product-card"><div class="product-visual"><span class="product-cat">Appliances</span><svg viewBox="0 0 90 90" fill="none"><rect x="10" y="10" width="70" height="70" rx="35" fill="none" stroke="white" stroke-width="4"/><rect x="40" y="60" width="10" height="20" fill="white"/><rect x="35" y="78" width="20" height="5" fill="white"/></svg></div><div class="product-info"><div class="product-name">Washing machines</div><div class="product-desc">Front and top-load. Installation and testing included.</div><div class="product-price">From 35,000 ETB</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🛋</div><div class="product-cat">Seating</div><div class="product-name">Sofas</div><div class="product-desc">2 and 3-seat. Fabric and leather options. Delivered and assembled in your living room.</div><div class="product-price">From 28,000 ETB</div><div class="product-tag">Assembly included</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">❄️</div><div class="product-cat">Appliances</div><div class="product-name">Fridges</div><div class="product-desc">Single and double-door. Energy-efficient models. 2-year warranty on every unit.</div><div class="product-price">From 42,000 ETB</div><div class="product-tag">2-year warranty</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🛏</div><div class="product-cat">Bedroom</div><div class="product-name">Beds & mattresses</div><div class="product-desc">Single, double and king. Solid frames, quality mattresses. Professional assembly included.</div><div class="product-price">From 18,500 ETB</div><div class="product-tag">Assembly included</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🫧</div><div class="product-cat">Appliances</div><div class="product-name">Washing machines</div><div class="product-desc">Front and top-load options. Full installation and testing included with every delivery.</div><div class="product-price">From 35,000 ETB</div><div class="product-tag">Installation included</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">💧</div><div class="product-cat">Appliances</div><div class="product-name">Water dispensers</div><div class="product-desc">Hot and cold. Free-standing and countertop. Same-day delivery available.</div><div class="product-price">From 8,500 ETB</div><div class="product-tag">Same-day available</div></div></div>
+    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🚪</div><div class="product-cat">Storage</div><div class="product-name">Wardrobes</div><div class="product-desc">Sliding and hinged door options. Built in your bedroom by our assembly team.</div><div class="product-price">From 22,000 ETB</div><div class="product-tag">Assembly included</div></div></div>
   </div>
 </section>
-
 <section id="delivery" class="delivery-section">
   <div class="section-eyebrow">How it works</div>
   <div class="section-title">Delivery that <em>actually</em> arrives</div>
   <div class="delivery-grid">
     <div class="delivery-steps">
-      <div class="delivery-step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Pin your location</div><p class="step-text">No formal address needed. Drop a Google Maps pin, share GPS coordinates, or add delivery notes. We've built this for Addis — not for a city with neat postcodes.</p></div></div>
-      <div class="delivery-step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Pick your time</div><p class="step-text">Choose a day and a window — morning, afternoon or evening. We don't give you a vague "sometime today." We give you a time and we keep it.</p></div></div>
-      <div class="delivery-step"><div class="step-num">3</div><div class="step-content"><div class="step-title">We call 30 minutes before</div><p class="step-text">Our driver calls you before they arrive. No surprises. No waiting around all day. You know exactly when to expect us.</p></div></div>
-      <div class="delivery-step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Delivered, assembled, done</div><p class="step-text">We bring it in, build it, check it with you, remove all packaging. We don't leave until you're happy. Then we follow up the next day.</p></div></div>
+      <div class="delivery-step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Pin your location</div><p class="step-text">No formal address needed. Drop a Google Maps pin, share GPS coordinates, or add delivery notes. Built for Addis — not for a city with neat postcodes.</p></div></div>
+      <div class="delivery-step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Choose your time</div><p class="step-text">Select a day and a delivery window — morning, afternoon or evening. We give you a specific time and we keep it.</p></div></div>
+      <div class="delivery-step"><div class="step-num">3</div><div class="step-content"><div class="step-title">We call 30 minutes before</div><p class="step-text">Our driver calls you before arriving. No surprises. No waiting all day. You know exactly when to expect us.</p></div></div>
+      <div class="delivery-step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Delivered, assembled, done</div><p class="step-text">We bring it in, build it, check it with you and remove all packaging. We do not leave until you are satisfied. Then we follow up the next day.</p></div></div>
     </div>
     <div class="delivery-visual">
-      <div class="map-mock"><div class="map-grid"></div><div class="map-pin map-pin-1"></div><div class="map-pin map-pin-2"></div></div>
+      <div id="delivery-map"></div>
+      <div class="delivery-map-overlay"></div>
       <div class="delivery-card">
-        <div class="delivery-card-label">Live order · Kirkos Sub-City</div>
-        <div class="delivery-card-title">Nursery bed — Order #0012</div>
+        <div class="delivery-card-label">Live order · Bole Sub-City</div>
+        <div class="delivery-card-title">Nursery bed — Order #0023</div>
         <div class="delivery-card-sub">Scheduled: Today, 10:00–10:30 AM</div>
-        <div class="status-text"><span class="status-dot"></span>Driver en route · 8 minutes away</div>
+        <div class="status-text"><span class="status-dot"></span>Driver en route · 6 minutes away</div>
       </div>
     </div>
   </div>
 </section>
-
 <section class="coming-section">
   <div class="coming-inner">
-    <div class="section-eyebrow">Honest note</div>
-    <div class="section-title">We're not live <em>yet.</em></div>
-    <p class="section-sub">TAFESSE is in its final stages before launch. We're lining up our first supplier partners and building the delivery operation the right way — carefully, so that when we open, we can actually keep every promise on this page.</p>
-    <p class="coming-note">Join the waitlist below and you'll be among the first to order. We'll hold you to giving us honest feedback when you do.</p>
+    <div class="section-eyebrow">A note from us</div>
+    <div class="section-title">We are not live <em>yet.</em></div>
+    <p class="section-sub">TAFESSE is in its final stages before launch. We are building the supplier partnerships and the delivery operation the right way — carefully — so that when we open, we can keep every promise on this page.</p>
+    <p class="coming-note">Join the waitlist and you will be among the very first to experience it. We will hold you to giving us honest feedback when you do.</p>
   </div>
 </section>
-
 <section id="waitlist" class="cta-section">
   <div class="section-eyebrow">Join the waitlist</div>
   <div class="section-title">Be part of something <em>Addis has never had</em></div>
-  <p class="section-sub">We're launching soon. Join the waitlist for early access and launch offers. First 100 members get 10% off their first order.</p>
+  <p class="section-sub">Launching in Addis Ababa soon. Join for early access and launch offers. First 100 members receive 10% off their first order.</p>
   <div class="cta-input-row">
     <input class="cta-input" type="email" placeholder="Your email address" id="email-input">
     <button class="cta-btn" onclick="handleSignup()">Join Waitlist</button>
   </div>
   <p class="cta-note" id="signup-msg">No spam. Launch updates only. Unsubscribe anytime.</p>
 </section>
-
 <footer>
   <div class="footer-logo">T<span>A</span>FESSE</div>
   <div class="footer-text">© 2025 TAFESSE · Addis Ababa, Ethiopia</div>
   <div class="footer-text">hello@tafesse.com</div>
 </footer>
-
 <script>
 function handleSignup() {
   const input = document.getElementById('email-input');
@@ -249,6 +246,41 @@ function handleSignup() {
     msg.style.color = '#ff6b6b';
   }
 }
+const addisNeighbourhoods = [
+  { name: 'Bole', lat: 8.9806, lng: 38.7892, large: true },
+  { name: 'Kirkos', lat: 9.0084, lng: 38.7601, large: true },
+  { name: 'Kazanchis', lat: 9.0200, lng: 38.7650, large: false },
+  { name: 'CMC', lat: 9.0350, lng: 38.8100, large: false },
+  { name: 'Sarbet', lat: 8.9950, lng: 38.7450, large: false },
+  { name: 'Piassa', lat: 9.0350, lng: 38.7500, large: true },
+  { name: 'Megenagna', lat: 9.0230, lng: 38.8020, large: false },
+  { name: 'Summit', lat: 8.9650, lng: 38.8150, large: false },
+  { name: 'Gerji', lat: 8.9900, lng: 38.8250, large: false },
+  { name: 'Lebu', lat: 8.9500, lng: 38.7300, large: false },
+  { name: '4 Kilo', lat: 9.0450, lng: 38.7620, large: false },
+  { name: 'Mexico', lat: 9.0150, lng: 38.7520, large: false },
+];
+function createMap(id, center, zoom) {
+  const map = L.map(id, { center: center, zoom: zoom, zoomControl: false, scrollWheelZoom: false, dragging: false, touchZoom: false, doubleClickZoom: false, attributionControl: false });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 16 }).addTo(map);
+  return map;
+}
+function addPins(map) {
+  addisNeighbourhoods.forEach(n => {
+    const el = document.createElement('div');
+    el.className = n.large ? 'custom-pin-large' : 'custom-pin';
+    const marker = L.marker([n.lat, n.lng], { icon: L.divIcon({ className: '', html: el.outerHTML, iconSize: n.large ? [16,16] : [12,12], iconAnchor: n.large ? [8,8] : [6,6] }) }).addTo(map);
+    marker.bindPopup(n.name, { closeButton: false, offset: [0, -8] });
+    marker.on('mouseover', function() { this.openPopup(); });
+    marker.on('mouseout', function() { this.closePopup(); });
+  });
+}
+window.addEventListener('load', function() {
+  const heroMap = createMap('hero-map', [9.005, 38.775], 12);
+  addPins(heroMap);
+  const deliveryMap = createMap('delivery-map', [9.005, 38.775], 13);
+  addPins(deliveryMap);
+});
 </script>
 </body>
 </html>
