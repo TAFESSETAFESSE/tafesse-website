@@ -78,7 +78,8 @@ section { padding: 4rem 2rem; }
 .product-card:hover { background: #2E2A24; }
 .product-card:hover .product-card-inner { border-color: rgba(201,168,76,0.3); }
 .product-card-inner { padding: 2.5rem 2rem; border: 0.5px solid transparent; transition: border 0.2s; height: 100%; }
-.product-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+.product-icon { width: 64px; height: 64px; margin-bottom: 1.5rem; }
+.product-icon svg { width: 64px; height: 64px; }
 .product-cat { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 0.8rem; }
 .product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: var(--white); margin-bottom: 0.6rem; line-height: 1.2; }
 .product-desc { font-size: 0.78rem; color: rgba(255,255,255,0.35); line-height: 1.6; margin-bottom: 1.2rem; font-weight: 300; }
@@ -133,7 +134,7 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
 </nav>
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">Addis Ababa · Launching 2025</div>
+    <div class="hero-eyebrow">Addis Ababa · Launching 2026</div>
     <h1>Addis deserves brands it can <em>rely on.</em> We are building one.</h1>
     <p class="hero-sub">Choose your product. Set your delivery time. We handle everything else — precisely, professionally, every single time.</p>
     <div class="hero-actions">
@@ -144,7 +145,7 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
   <div class="hero-right">
     <div id="hero-map"></div>
     <div class="hero-map-overlay"></div>
-    <div class="hero-badge">Delivering across Addis Ababa · 2025</div>
+    <div class="hero-badge">Delivering across Addis Ababa · 2026</div>
   </div>
 </section>
 <div class="trust-bar">
@@ -159,7 +160,7 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
     <div class="section-eyebrow">Our vision</div>
     <div class="vision-quote">Addis Ababa is becoming one of the <em>great cities of this century.</em> It deserves brands that match that ambition.</div>
     <p class="vision-sub">The city is growing fast — new apartments, new businesses, a rising generation with rising expectations. What has been missing is a home commerce brand worthy of that growth. Reliable. Professional. Trustworthy. Built to last. That is what TAFESSE is here to be.</p>
-    <div class="vision-name">TAFESSE — Founded in Addis Ababa</div>
+    <div class="vision-name">TAFESSE — Founded in London, built for Addis Ababa</div>
   </div>
 </section>
 <section id="why">
@@ -180,12 +181,42 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
   <div class="section-title" style="color:white">Furniture & appliances for the <em>Addis home</em></div>
   <p class="section-sub">A focused, verified collection. Every item quality-checked, professionally delivered and fully assembled.</p>
   <div class="product-grid">
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🛋</div><div class="product-cat">Seating</div><div class="product-name">Sofas</div><div class="product-desc">2 and 3-seat. Fabric and leather options. Delivered and assembled in your living room.</div><div class="product-price">From 28,000 ETB</div><div class="product-tag">Assembly included</div></div></div>
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">❄️</div><div class="product-cat">Appliances</div><div class="product-name">Fridges</div><div class="product-desc">Single and double-door. Energy-efficient models. 2-year warranty on every unit.</div><div class="product-price">From 42,000 ETB</div><div class="product-tag">2-year warranty</div></div></div>
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🛏</div><div class="product-cat">Bedroom</div><div class="product-name">Beds & mattresses</div><div class="product-desc">Single, double and king. Solid frames, quality mattresses. Professional assembly included.</div><div class="product-price">From 18,500 ETB</div><div class="product-tag">Assembly included</div></div></div>
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🫧</div><div class="product-cat">Appliances</div><div class="product-name">Washing machines</div><div class="product-desc">Front and top-load options. Full installation and testing included with every delivery.</div><div class="product-price">From 35,000 ETB</div><div class="product-tag">Installation included</div></div></div>
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">💧</div><div class="product-cat">Appliances</div><div class="product-name">Water dispensers</div><div class="product-desc">Hot and cold. Free-standing and countertop. Same-day delivery available.</div><div class="product-price">From 8,500 ETB</div><div class="product-tag">Same-day available</div></div></div>
-    <div class="product-card"><div class="product-card-inner"><div class="product-icon">🚪</div><div class="product-cat">Storage</div><div class="product-name">Wardrobes</div><div class="product-desc">Sliding and hinged door options. Built in your bedroom by our assembly team.</div><div class="product-price">From 22,000 ETB</div><div class="product-tag">Assembly included</div></div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="34" width="52" height="20" rx="3" stroke="#C9A84C" stroke-width="1.5"/><rect x="12" y="22" width="40" height="15" rx="7" stroke="#C9A84C" stroke-width="1.5"/><rect x="6" y="26" width="8" height="28" rx="2" stroke="#C9A84C" stroke-width="1.5"/><rect x="50" y="26" width="8" height="28" rx="2" stroke="#C9A84C" stroke-width="1.5"/><line x1="16" y1="54" x2="16" y2="62" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="48" y1="54" x2="48" y2="62" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="product-cat">Seating</div><div class="product-name">Sofas</div>
+      <div class="product-desc">2 and 3-seat. Fabric and leather options. Delivered and assembled in your living room.</div>
+      <div class="product-price">From 28,000 ETB</div><div class="product-tag">Assembly included</div>
+    </div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="6" width="40" height="54" rx="3" stroke="#C9A84C" stroke-width="1.5"/><line x1="12" y1="28" x2="52" y2="28" stroke="#C9A84C" stroke-width="1"/><line x1="22" y1="16" x2="22" y2="24" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="22" y1="34" x2="22" y2="52" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="product-cat">Appliances</div><div class="product-name">Fridges</div>
+      <div class="product-desc">Single and double-door. Energy-efficient models. 2-year warranty on every unit.</div>
+      <div class="product-price">From 42,000 ETB</div><div class="product-tag">2-year warranty</div>
+    </div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="34" width="56" height="22" rx="3" stroke="#C9A84C" stroke-width="1.5"/><rect x="4" y="22" width="56" height="16" rx="2" stroke="#C9A84C" stroke-width="1.5"/><rect x="8" y="26" width="18" height="10" rx="2" stroke="#C9A84C" stroke-width="1"/><rect x="38" y="26" width="18" height="10" rx="2" stroke="#C9A84C" stroke-width="1"/><line x1="10" y1="56" x2="10" y2="63" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/><line x1="54" y1="56" x2="54" y2="63" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="product-cat">Bedroom</div><div class="product-name">Beds & mattresses</div>
+      <div class="product-desc">Single, double and king. Solid frames, quality mattresses. Professional assembly included.</div>
+      <div class="product-price">From 18,500 ETB</div><div class="product-tag">Assembly included</div>
+    </div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="10" y="8" width="44" height="50" rx="4" stroke="#C9A84C" stroke-width="1.5"/><circle cx="32" cy="36" r="14" stroke="#C9A84C" stroke-width="1.5"/><circle cx="32" cy="36" r="7" stroke="#C9A84C" stroke-width="1"/><circle cx="20" cy="18" r="3" stroke="#C9A84C" stroke-width="1"/><circle cx="30" cy="18" r="2" stroke="#C9A84C" stroke-width="1"/></svg></div>
+      <div class="product-cat">Appliances</div><div class="product-name">Washing machines</div>
+      <div class="product-desc">Front and top-load options. Full installation and testing included with every delivery.</div>
+      <div class="product-price">From 35,000 ETB</div><div class="product-tag">Installation included</div>
+    </div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="4" width="32" height="20" rx="10" stroke="#C9A84C" stroke-width="1.5"/><rect x="18" y="22" width="28" height="34" rx="2" stroke="#C9A84C" stroke-width="1.5"/><line x1="22" y1="38" x2="42" y2="38" stroke="#C9A84C" stroke-width="1"/><rect x="22" y="43" width="8" height="6" rx="1" stroke="#C9A84C" stroke-width="1"/><rect x="34" y="43" width="8" height="6" rx="1" stroke="#C9A84C" stroke-width="1"/></svg></div>
+      <div class="product-cat">Appliances</div><div class="product-name">Water dispensers</div>
+      <div class="product-desc">Hot and cold. Free-standing and countertop. Same-day delivery available.</div>
+      <div class="product-price">From 8,500 ETB</div><div class="product-tag">Same-day available</div>
+    </div></div>
+    <div class="product-card"><div class="product-card-inner">
+      <div class="product-icon"><svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="6" width="48" height="54" rx="2" stroke="#C9A84C" stroke-width="1.5"/><line x1="28" y1="6" x2="28" y2="60" stroke="#C9A84C" stroke-width="1"/><rect x="12" y="18" width="12" height="10" rx="1" stroke="#C9A84C" stroke-width="1"/><rect x="12" y="32" width="12" height="10" rx="1" stroke="#C9A84C" stroke-width="1"/><line x1="8" y1="14" x2="56" y2="14" stroke="#C9A84C" stroke-width="1"/></svg></div>
+      <div class="product-cat">Storage</div><div class="product-name">Wardrobes</div>
+      <div class="product-desc">Sliding and hinged door options. Built in your bedroom by our assembly team.</div>
+      <div class="product-price">From 22,000 ETB</div><div class="product-tag">Assembly included</div>
+    </div></div>
   </div>
 </section>
 <section id="delivery" class="delivery-section">
@@ -221,7 +252,7 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
 <section id="waitlist" class="cta-section">
   <div class="section-eyebrow">Join the waitlist</div>
   <div class="section-title">Be part of something <em>Addis has never had</em></div>
-  <p class="section-sub">Launching in Addis Ababa soon. Join for early access and launch offers. First 100 members receive 10% off their first order.</p>
+  <p class="section-sub">Launching in Addis Ababa in 2026. Join for early access and launch offers. First 100 members receive 10% off their first order.</p>
   <div class="cta-input-row">
     <input class="cta-input" type="email" placeholder="Your email address" id="email-input">
     <button class="cta-btn" onclick="handleSignup()">Join Waitlist</button>
@@ -230,8 +261,8 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
 </section>
 <footer>
   <div class="footer-logo">T<span>A</span>FESSE</div>
-  <div class="footer-text">© 2025 TAFESSE · Addis Ababa, Ethiopia</div>
-  <div class="footer-text">hello@tafesse.com</div>
+  <div class="footer-text">© 2026 TAFESSE · Founded in London, built for Addis Ababa</div>
+  <div class="footer-text">hello@tafesse.store</div>
 </footer>
 <script>
 async function handleSignup() {
@@ -253,11 +284,7 @@ async function handleSignup() {
         'Content-Type': 'application/json',
         'api-key': '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'
       },
-      body: JSON.stringify({
-        email: email,
-        listIds: [3],
-        updateEnabled: true
-      })
+      body: JSON.stringify({ email: email, listIds: [3], updateEnabled: true })
     });
     if (response.ok || response.status === 204) {
       msg.textContent = 'You are on the list. We will be in touch soon.';
