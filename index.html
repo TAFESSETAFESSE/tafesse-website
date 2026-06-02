@@ -234,15 +234,41 @@ footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center;
   <div class="footer-text">hello@tafesse.com</div>
 </footer>
 <script>
-function handleSignup() {
+async function handleSignup() {
   const input = document.getElementById('email-input');
   const msg = document.getElementById('signup-msg');
-  if (input.value && input.value.includes('@')) {
-    msg.textContent = 'You are on the list. We will be in touch soon.';
-    msg.style.color = '#C9A84C';
-    input.value = '';
-  } else {
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
     msg.textContent = 'Please enter a valid email address.';
+    msg.style.color = '#ff6b6b';
+    return;
+  }
+  msg.textContent = 'Joining...';
+  msg.style.color = '#C9A84C';
+  try {
+    const response = await fetch('https://api.brevo.com/v3/contacts', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': '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'
+      },
+      body: JSON.stringify({
+        email: email,
+        listIds: [2],
+        updateEnabled: true
+      })
+    });
+    if (response.ok || response.status === 204) {
+      msg.textContent = 'You are on the list. We will be in touch soon.';
+      msg.style.color = '#C9A84C';
+      input.value = '';
+    } else {
+      msg.textContent = 'Something went wrong. Please try again.';
+      msg.style.color = '#ff6b6b';
+    }
+  } catch(e) {
+    msg.textContent = 'Something went wrong. Please try again.';
     msg.style.color = '#ff6b6b';
   }
 }
