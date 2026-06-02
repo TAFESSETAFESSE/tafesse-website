@@ -27,4 +27,106 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; 
 .page-hero h1 em { font-style: italic; color: var(--gold-light); }
 .page-hero p { font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.5); max-width: 520px; font-weight: 300; }
 .section { padding: 4rem 2rem; }
-@media (min-width: 768px) { .section { padding: 5rem
+@media (min-width: 768px) { .section { padding: 5rem 4rem; } }
+.section-eyebrow { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; font-weight: 500; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 300; line-height: 1.2; color: var(--dark); margin-bottom: 1rem; }
+.section-title em { font-style: italic; }
+.section-sub { font-size: 0.88rem; line-height: 1.8; color: var(--text-muted); max-width: 600px; font-weight: 300; }
+.vision-section { background: var(--dark); padding: 5rem 3rem; }
+.vision-inner { max-width: 720px; }
+.vision-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 300; line-height: 1.4; color: var(--white); margin-bottom: 2rem; }
+.vision-quote em { font-style: italic; color: var(--gold-light); }
+.vision-body { font-size: 0.9rem; line-height: 1.9; color: rgba(255,255,255,0.5); max-width: 600px; font-weight: 300; }
+.vision-body p { margin-bottom: 1.2rem; }
+.values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1px; margin-top: 3rem; background: var(--cream-2); }
+.value-card { background: var(--cream); padding: 2rem 1.5rem; transition: background 0.2s; }
+.value-card:hover { background: var(--white); }
+.value-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--gold-light); line-height: 1; margin-bottom: 0.8rem; }
+.value-title { font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dark); font-weight: 500; margin-bottom: 0.6rem; }
+.value-text { font-size: 0.83rem; line-height: 1.7; color: var(--text-muted); font-weight: 300; }
+.timeline-section { background: var(--white); }
+.timeline { margin-top: 3rem; }
+.timeline-item { display: flex; gap: 2rem; padding: 2rem 0; border-bottom: 0.5px solid var(--cream-2); }
+.timeline-item:last-child { border-bottom: none; }
+.timeline-year { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--gold); line-height: 1; flex-shrink: 0; width: 5rem; }
+.timeline-title { font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dark); font-weight: 500; margin-bottom: 0.4rem; }
+.timeline-text { font-size: 0.83rem; line-height: 1.6; color: var(--text-muted); font-weight: 300; }
+.cta-section { background: var(--dark); padding: 6rem 2rem; text-align: center; }
+.cta-section .section-title { color: var(--white); max-width: 600px; margin: 0.5rem auto 1.5rem; text-align: center; }
+.cta-section .section-sub { color: rgba(255,255,255,0.4); text-align: center; margin: 0 auto 2.5rem; }
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-primary { background: var(--gold); color: var(--dark); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; text-decoration: none; display: inline-block; }
+.btn-outline { background: transparent; color: rgba(255,255,255,0.6); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; border: 0.5px solid rgba(255,255,255,0.2); cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; text-decoration: none; display: inline-block; }
+footer { background: #0F0D0B; padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.15em; color: rgba(255,255,255,0.3); text-decoration: none; }
+.footer-logo span { color: var(--gold); }
+.footer-text { font-size: 0.68rem; color: rgba(255,255,255,0.15); letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-logo" href="/">T<span>A</span>FESSE</a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about.html">About</a></li>
+    <li><a href="/partners.html">Partner with us</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="/#waitlist">Join Waitlist</a>
+  <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-eyebrow">Our Story</div>
+    <h1>Founded in London. <em>Built for Addis.</em></h1>
+    <p>TAFESSE was born from a simple belief — that Addis Ababa deserves brands that match its ambition. Reliable, professional, trustworthy brands that people can depend on.</p>
+  </div>
+</div>
+<section class="vision-section">
+  <div class="vision-inner">
+    <div class="section-eyebrow">The vision</div>
+    <div class="vision-quote">Addis Ababa is the future capital of Africa. <em>Others are finally seeing what we always saw.</em></div>
+    <div class="vision-body">
+      <p>The city is on the rise. New apartments, new businesses, a rising generation with rising expectations. Investment is flowing in. The world is paying attention. Addis Ababa is becoming one of the great cities of this century.</p>
+      <p>And yet — when it comes to buying something for your home, ordering it reliably, having it arrive on time and assembled properly — that infrastructure does not yet exist. There is no trusted home commerce brand. No reliable delivery. No quality guarantee.</p>
+      <p>That is the gap TAFESSE is built to fill. Not as a quick business opportunity — but as a long-term commitment to building something Addis can be proud of.</p>
+    </div>
+  </div>
+</section>
+<section class="section">
+  <div class="section-eyebrow">What we stand for</div>
+  <div class="section-title">Our <em>values</em></div>
+  <p class="section-sub">Everything we do comes back to these four principles.</p>
+  <div class="values-grid">
+    <div class="value-card"><div class="value-num">01</div><div class="value-title">Trust above all</div><p class="value-text">Every decision we make is filtered through one question — does this make us more trustworthy? If the answer is no, we do not do it.</p></div>
+    <div class="value-card"><div class="value-num">02</div><div class="value-title">Delivery is the product</div><p class="value-text">The sofa is not the product. The fridge is not the product. The experience of ordering it, receiving it, and having it work perfectly — that is the product.</p></div>
+    <div class="value-card"><div class="value-num">03</div><div class="value-title">Built for Addis</div><p class="value-text">We are not copying a Western model and dropping it into Ethiopia. We are building something designed from the ground up for how Addis actually works.</p></div>
+    <div class="value-card"><div class="value-num">04</div><div class="value-title">Long term thinking</div><p class="value-text">We are not here for quick wins. We are building a brand that will still be here in 20 years — one that Addis can rely on the way London relies on John Lewis.</p></div>
+  </div>
+</section>
+<section class="section timeline-section">
+  <div class="section-eyebrow">The journey</div>
+  <div class="section-title">Where we are <em>going</em></div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-year">2026</div><div><div class="timeline-title">Launch — Addis Ababa</div><p class="timeline-text">First supplier partnerships confirmed. First deliveries made. Building the trust brand one perfect order at a time. Furniture and appliances, white-glove delivery, Addis-wide.</p></div></div>
+    <div class="timeline-item"><div class="timeline-year">2027</div><div><div class="timeline-title">Growth — The platform expands</div><p class="timeline-text">More supplier partners. Home setup packages. A dedicated delivery team. The diaspora channel fully open — order from anywhere in the world for family in Addis.</p></div></div>
+    <div class="timeline-item"><div class="timeline-year">2028</div><div><div class="timeline-title">Scale — The trusted name</div><p class="timeline-text">TAFESSE becomes the standard for home commerce in Addis. Third-party sellers operating under the TAFESSE quality guarantee. Fulfilment services for other businesses.</p></div></div>
+    <div class="timeline-item"><div class="timeline-year">2030+</div><div><div class="timeline-title">Expansion — Beyond Addis</div><p class="timeline-text">The TAFESSE model expands to other Ethiopian cities and beyond. A pan-African premium home commerce brand — built in Addis, recognised everywhere.</p></div></div>
+  </div>
+</section>
+<section class="cta-section">
+  <div class="section-eyebrow">Be part of it</div>
+  <div class="section-title">TAFESSE is <em>just getting started</em></div>
+  <p class="section-sub">Whether you are a customer, a supplier, or someone who believes in what we are building — there is a place for you in this story.</p>
+  <div class="cta-buttons">
+    <a class="btn-primary" href="/#waitlist">Join the Waitlist</a>
+    <a class="btn-outline" href="/partners.html">Partner with us</a>
+  </div>
+</section>
+<footer>
+  <a class="footer-logo" href="/">T<span>A</span>FESSE</a>
+  <div class="footer-text">© 2026 TAFESSE · Founded in London, built for Addis Ababa</div>
+  <div class="footer-text">hello@tafesse.store</div>
+</footer>
+</body>
+</html>
